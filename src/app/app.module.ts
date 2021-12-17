@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -47,9 +48,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { ZComponentComponent } from './components/z-component/z-component.component';
 import { ZDirectiveDirective } from './directives/z-directive.directive';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [AppComponent, ZComponentComponent, ZDirectiveDirective],
+  declarations: [
+    AppComponent,
+    ZComponentComponent,
+    ZDirectiveDirective,
+    LoginComponent,
+    DashboardComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -91,6 +100,16 @@ import { ZDirectiveDirective } from './directives/z-directive.directive';
     MatStepperModule,
     MatPaginatorModule,
     MatFormFieldModule,
+
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token');
+        },
+        allowedDomains: ['localhost'],
+        disallowedRoutes: ['localhost/auth/login'],
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
